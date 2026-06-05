@@ -1,0 +1,50 @@
+[package]
+name = "ternary-cookbook"
+version = "0.1.0"
+edition = "2021"
+description = "Working demos, tutorials, and developer guides for the ternary {-1, 0, +1} ecosystem"
+license = "MIT"
+
+[[example]]
+name = "traffic_controller"
+path = "examples/traffic_controller.rs"
+
+[[example]]
+name = "spam_filter"
+path = "examples/spam_filter.rs"
+
+[[example]]
+name = "load_balancer"
+path = "examples/load_balancer.rs"
+
+[[example]]
+name = "game_of_life"
+path = "examples/game_of_life.rs"
+
+[[example]]
+name = "thermostat_demo"
+path = "examples/thermostat_demo.rs"
+
+[[example]]
+name = "consensus_demo"
+path = "examples/consensus_demo.rs"
+
+[[example]]
+name = "budget_tracker"
+path = "examples/budget_tracker.rs"
+
+[[example]]
+name = "signal_processor"
+path = "examples/signal_processor.rs"
+
+[[example]]
+name = "radiation_sim"
+path = "examples/radiation_sim.rs"
+
+[[example]]
+name = "proof_verifier"
+path = "examples/proof_verifier.rs"
+
+[[example]]
+name = "full_stack"
+path = "examples/full_stack.rs"
