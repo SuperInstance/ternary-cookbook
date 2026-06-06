@@ -1,37 +1,63 @@
 # ternary-cookbook
 
-Working demos, tutorials, and developer guides for the ternary {-1, 0, +1} ecosystem
+*11 runnable examples demonstrating real-world ternary {-1, 0, +1} applications. Each example is self-contained, copy-paste ready, and teaches one concrete technique.*
 
-## Overview
+## Why This Exists
 
-# Ternary Cookbook: Working Demos and Developer Guides
+Ternary math is elegant in the abstract but opaque in practice. "Use {-1, 0, +1} instead of booleans" sounds interesting, but *what do you actually build?* This cookbook answers that question with 11 working programs that span from spam filtering to radiation simulation to distributed consensus.
 
-This cookbook contains **11 runnable examples** that demonstrate real-world
+## The Examples
 
-## Stats
+| Example | Domain | What It Teaches |
+|---------|--------|-----------------|
+| `spam_filter` | Text classification | Ternary weight vectors, dot-product classification |
+| `thermostat_demo` | Control systems | PID-like control with ternary output (heat/hold/cool) |
+| `budget_tracker` | Resource allocation | Ternary budget decisions (over/under/on-target) |
+| `consensus_demo` | Distributed systems | Three-agent voting with quorum detection |
+| `traffic_controller` | IoT | Ternary traffic light logic with flow optimization |
+| `load_balancer` | Systems | Ternary health signals (healthy/unknown/unhealthy) for routing |
+| `game_of_life` | Simulation | Ternary cellular automata (-1=dead, 0=dormant, +1=alive) |
+| `radiation_sim` | Physics | Percolation with ternary states (absorbed/scattered/transmitted) |
+| `full_stack` | Integration | Complete ternary pipeline: input → process → output → verify |
+| `proof_verifier` | Cryptography | Ternary zero-knowledge proof verification |
+| `signal_processor` | DSP | Ternary signal filtering with Walsh/Hadamard transforms |
 
-- **Tests**: 0
-0
-- **LOC**: 213
-- **License**: MIT
+## Quick Start
 
-## Part of the Oxide Stack
-
-This crate is part of the [Flux→PTX](https://github.com/SuperInstance/cuda-oxide/blob/main/FLUX_TO_PTX.md) experimental suite, testing synergies between the five layers of the distributed GPU runtime:
-
-1. **open-parallel** — async runtime (tokio fork)
-2. **pincher** — "Vector DB as runtime, LLM as compiler"
-3. **flux-core** — bytecode VM + A2A agent protocol
-4. **cuda-oxide** — Flux→MIR→Pliron→NVVM→PTX compiler
-5. **cudaclaw** — persistent GPU kernels, warp-level consensus, SmartCRDT
-
-## Usage
-
-```rust
-use ternary_cookbook::*;
-// See tests in src/lib.rs for examples
+```bash
+# Run any example
+cargo run --example spam_filter
+cargo run --example consensus_demo
+cargo run --example game_of_life
 ```
 
-## License
+## Example: Spam Filter
 
-MIT
+```rust
+// A ternary spam classifier — each word contributes -1 (ham), 0 (neutral), or +1 (spam)
+let weights = TernaryWeights::from_keywords(&[
+    ("buy", 1), ("free", 1), ("meeting", -1), ("attached", -1),
+]);
+let score = weights.classify("Buy now! Free offer!");
+assert!(score > 0); // spam detected
+```
+
+## Example: Consensus
+
+```rust
+// Three agents vote: -1 (reject), 0 (abstain), +1 (accept)
+let votes = vec![1, 1, -1];
+let result = quorum(&votes);
+assert_eq!(result, Consensus::Accepted); // 2/3 positive
+```
+
+## The Developer Guide
+
+See `guides/DEVELOPER_GUIDE.md` for a comprehensive walkthrough of ternary programming patterns, common pitfalls (the Z₃ addition bug!), and performance tips.
+
+## Related Crates
+
+- `ternary-core` — The foundation (Z₃ arithmetic, ternary grids)
+- `ternary-types` — Concrete types (TritVec, TritMatrix)
+- `ternary-cookbook` — This crate (runnable examples)
+- Every `ternary-*` crate — These examples are the on-ramp to all of them
