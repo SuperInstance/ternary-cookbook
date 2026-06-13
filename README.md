@@ -1,63 +1,72 @@
-# ternary-cookbook
+# Ternary Cookbook — Working Demos and Developer Guides for the Ternary Ecosystem
 
-*11 runnable examples demonstrating real-world ternary {-1, 0, +1} applications. Each example is self-contained, copy-paste ready, and teaches one concrete technique.*
+**Ternary Cookbook** is a collection of 11 runnable examples demonstrating real-world applications of ternary {-1, 0, +1} logic. Each example is self-contained and covers a different domain: traffic control, spam filtering, load balancing, cellular automata, climate control, distributed consensus, budget management, signal processing, radiation simulation, proof verification, and full-system composition.
 
-## Why This Exists
+## Why It Matters
 
-Ternary math is elegant in the abstract but opaque in practice. "Use {-1, 0, +1} instead of booleans" sounds interesting, but *what do you actually build?* This cookbook answers that question with 11 working programs that span from spam filtering to radiation simulation to distributed consensus.
+Ternary logic is mathematically elegant, but demonstrating its practical value requires concrete, runnable examples. This cookbook bridges theory and practice: every example solves a recognizable problem and can be executed with a single command. The key insight across all examples is that the **0 state is a universal screen** — it prevents pathological lock-in, screens phase transitions, and makes Z₃ cyclic dominance (rock-paper-scissors) the natural coordination mechanism. These aren't toy demos; they implement real algorithms (PID control, RPS game theory, consensus protocols) using ternary primitives.
 
-## The Examples
+## How It Works
 
-| Example | Domain | What It Teaches |
-|---------|--------|-----------------|
-| `spam_filter` | Text classification | Ternary weight vectors, dot-product classification |
-| `thermostat_demo` | Control systems | PID-like control with ternary output (heat/hold/cool) |
-| `budget_tracker` | Resource allocation | Ternary budget decisions (over/under/on-target) |
-| `consensus_demo` | Distributed systems | Three-agent voting with quorum detection |
-| `traffic_controller` | IoT | Ternary traffic light logic with flow optimization |
-| `load_balancer` | Systems | Ternary health signals (healthy/unknown/unhealthy) for routing |
-| `game_of_life` | Simulation | Ternary cellular automata (-1=dead, 0=dormant, +1=alive) |
-| `radiation_sim` | Physics | Percolation with ternary states (absorbed/scattered/transmitted) |
-| `full_stack` | Integration | Complete ternary pipeline: input → process → output → verify |
-| `proof_verifier` | Cryptography | Ternary zero-knowledge proof verification |
-| `signal_processor` | DSP | Ternary signal filtering with Walsh/Hadamard transforms |
+### Core Types
+
+All examples share a common `Ternary` type (`Minus`, `Zero`, `Plus`) and a `TernaryGrid` for 2D simulations. The grid supports cell counting, neighbor queries, and bulk operations — the substrate for cellular automata and spatial simulations.
+
+### Example Categories
+
+**Control Systems:** `traffic_controller` (ternary traffic lights: go/caution/stop), `thermostat_demo` (PID with ternary heating/cooling/idle), `load_balancer` (health-aware routing with healthy/degraded/down states).
+
+**Classification:** `spam_filter` (ternary classification: spam/ham/unknown), `budget_tracker` (over/under/on-target allocation).
+
+**Distributed Systems:** `consensus_demo` (multi-agent ternary voting), `full_stack` (all systems composed together).
+
+**Simulation:** `game_of_life` (ternary cellular automaton with birth/survival/death), `radiation_sim` (damage propagation with shielded/exposed/safe zones).
+
+**Verification:** `proof_verifier` (ternary proof chains: proved/refuted/unknown), `signal_processor` (DSP pipeline with ternary filters).
+
+### The Ternary Model
+
+Every example uses the mapping: +1 = positive/active/accept, 0 = neutral/idle/abstain, -1 = negative/inactive/reject. This maps naturally to real decisions: Buy/Hold/Sell, Approve/Review/Reject, Heat/Idle/Cool.
 
 ## Quick Start
 
 ```bash
 # Run any example
-cargo run --example spam_filter
-cargo run --example consensus_demo
-cargo run --example game_of_life
-```
+cargo run --example traffic_controller    # Traffic light simulation
+cargo run --example spam_filter           # Ternary spam classification  
+cargo run --example game_of_life          # Ternary Game of Life
+cargo run --example consensus_demo        # Multi-agent voting
+cargo run --example full_stack            # Everything composed
 
-## Example: Spam Filter
+# Use as a library
+```
 
 ```rust
-// A ternary spam classifier — each word contributes -1 (ham), 0 (neutral), or +1 (spam)
-let weights = TernaryWeights::from_keywords(&[
-    ("buy", 1), ("free", 1), ("meeting", -1), ("attached", -1),
-]);
-let score = weights.classify("Buy now! Free offer!");
-assert!(score > 0); // spam detected
+use ternary_cookbook::{Ternary, TernaryGrid};
+
+let mut grid = TernaryGrid::new(10, 10, 0);
+grid.set(5, 5, 1); // Positive cell
+let positive_count = grid.count(1);
 ```
 
-## Example: Consensus
+## API
 
-```rust
-// Three agents vote: -1 (reject), 0 (abstain), +1 (accept)
-let votes = vec![1, 1, -1];
-let result = quorum(&votes);
-assert_eq!(result, Consensus::Accepted); // 2/3 positive
-```
+| Type / Function | Description |
+|---|---|
+| `Ternary` | Enum: `Minus(-1)`, `Zero(0)`, `Plus(1)` |
+| `TernaryGrid` | 2D grid with `get(x,y)`, `set(x,y,v)`, `count(state)` |
+| 11 examples | Each runnable via `cargo run --example <name>` |
 
-## The Developer Guide
+## Architecture Notes
 
-See `guides/DEVELOPER_GUIDE.md` for a comprehensive walkthrough of ternary programming patterns, common pitfalls (the Z₃ addition bug!), and performance tips.
+The cookbook serves as the tutorial layer of **SuperInstance**. Each example demonstrates one aspect of the γ + η = C conservation framework: the traffic controller shows ternary state management, the consensus demo shows distributed γ/η balance, and the full_stack example shows the complete conservation law in action. See [Architecture](https://github.com/SuperInstance/SuperInstance/blob/main/ARCHITECTURE.md).
 
-## Related Crates
+## References
 
-- `ternary-core` — The foundation (Z₃ arithmetic, ternary grids)
-- `ternary-types` — Concrete types (TritVec, TritMatrix)
-- `ternary-cookbook` — This crate (runnable examples)
-- Every `ternary-*` crate — These examples are the on-ramp to all of them
+- Wolfram, Stephen. *A New Kind of Science*, Wolfram Media, 2002 — cellular automata.
+- Axelrod, Robert. *The Evolution of Cooperation*, Basic Books, 1984 — consensus and cooperation.
+- Gardner, Martin. "Mathematical Games: The Fantastic Combinations of John Conway's New Solitaire Game 'Life'," *Scientific American*, 223(4), 1970.
+
+## License
+
+MIT
